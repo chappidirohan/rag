@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+env/
+/target/
+bin/
+*.class
+
+# Configuration & Secrets
+.env
+application.properties
+*.local
+secrets/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Databases & Large Files
+chroma_db/
+uploads/
+*.log
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
