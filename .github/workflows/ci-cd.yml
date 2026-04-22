@@ -1,0 +1,55 @@
+name: RAG CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Setup Java (for Spring Boot backend)
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Build Backend
+      - name: Build Backend
+        run: |
+          cd backend
+          mvn clean install
+
+      # 4. Setup Node (for React frontend)
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 5. Build Frontend
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      # 6. AI Service (Python - optional safe step)
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install AI dependencies
+        run: |
+          cd ai-service
+          pip install -r requirements.txt || true
+
+      # 7. Success message
+      - name: Done
+        run: echo "Build completed successfully 🚀"
